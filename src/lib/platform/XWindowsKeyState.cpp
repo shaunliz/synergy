@@ -350,7 +350,7 @@ XWindowsKeyState::updateKeysymMap(synergy::KeyMap& keyMap)
 			}
 			for (j = maxKeysyms; j < keysymsPerKeycode; ++j) {
 				if (allKeysyms[i * keysymsPerKeycode + j] != NoSymbol) {
-					CLOG((CLOG_WARN "Dropping X11 Keycode %d -> KeySym %04x",
+					LOG((CLOG_WARN "Dropping X11 Keycode %d -> KeySym %04x",
 							i, allKeysyms[i * keysymsPerKeycode + j]));
 				}
 			}
