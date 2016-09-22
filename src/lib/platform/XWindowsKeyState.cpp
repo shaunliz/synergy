@@ -329,6 +329,7 @@ XWindowsKeyState::updateKeysymMap(synergy::KeyMap& keyMap)
 								minKeycode, numKeycodes,
 								&keysymsPerKeycode);
 	
+	LOG((CLOG_DEBUG1 "X11 KeySyms per keycode = %d", keysymsPerKeycode));
 	if (keysymsPerKeycode > 4) {
 		LOG((CLOG_WARN "There are potentially more X11 KeySyms per "
 				"keycode than we assume"));
