@@ -1476,6 +1476,7 @@ XWindowsUtil::mapKeySymToKeyID(KeySym k)
 		return static_cast<KeyID>(k);
 
 	case 0xfe00:
+		// Defined by Appendix C of "The X Keyboard Extension: Protocol Specification"
 		// ISO 9995 Function and Modifier Keys
 		switch (k) {
 		case XK_ISO_Left_Tab:
