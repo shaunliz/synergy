@@ -328,12 +328,18 @@ XWindowsKeyState::updateKeysymMap(synergy::KeyMap& keyMap)
 	KeySym* allKeysyms = XGetKeyboardMapping(m_display,
 								minKeycode, numKeycodes,
 								&keysymsPerKeycode);
+	
+	if (keysymsPerKeycode > 4) {
+		LOG((CLOG_WARN "There are potentially more X11 KeySyms per "
+				"keycode than we assume"));
+	}
 
 	// it's more convenient to always have maxKeysyms KeySyms per key
 	{
 		KeySym* tmpKeysyms = new KeySym[maxKeysyms * numKeycodes];
 		for (int i = 0; i < numKeycodes; ++i) {
-			for (int j = 0; j < maxKeysyms; ++j) {
+			int j;
+			for (j = 0; j < maxKeysyms; ++j) {
 				if (j < keysymsPerKeycode) {
 					tmpKeysyms[maxKeysyms * i + j] =
 						allKeysyms[keysymsPerKeycode * i + j];
@@ -341,7 +347,13 @@ XWindowsKeyState::updateKeysymMap(synergy::KeyMap& keyMap)
 				else {
 					tmpKeysyms[maxKeysyms * i + j] = NoSymbol;
 				}
-			}	
+			}
+			for (j = maxKeysyms; j < keysymsPerKeycode; ++j) {
+				if (allKeysyms[i * keysymsPerKeycode + j] != NoSymbol) {
+					CLOG((CLOG_WARN "Dropping X11 Keycode %d -> KeySym %04x",
+							i, allKeysyms[i * keysymsPerKeycode + j]));
+				}
+			}
 		}
 		XFree(allKeysyms);
 		allKeysyms = tmpKeysyms;
