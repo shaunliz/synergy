@@ -20,6 +20,7 @@ file(GLOB sources "*.cpp")
 include_directories(
 	../
 	../../lib/
+	${OPENSSL_INCLUDE}
 )
 
 if (UNIX)
@@ -35,7 +36,7 @@ else()
 endif()
 
 target_link_libraries(synergyd
-	arch base common io ipc mt net platform synergy ${libs})
+	arch base common io ipc mt net platform synergy ${libs} ${OPENSSL_LIBS})
 
 if (CONF_CPACK)
 	install(TARGETS
